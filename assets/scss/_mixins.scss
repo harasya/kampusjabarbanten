@@ -1,0 +1,209 @@
+@use "sass:map";
+@use "sass:meta";
+
+// Define breakpoints
+$breakpoints: (
+    sm: 640px,
+    md: 768px,
+    lg: 1024px,
+    xl: 1280px,
+    2xl: 1536px
+);
+
+// Define spacing
+$spacing: (
+    auto: auto,
+    0: 0,
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 0.75rem,
+    4: 1rem,
+    5: 1.25rem,
+    6: 1.5rem,
+    7: 1.75rem,
+    8: 2rem,
+    9: 2.25rem,
+    10: 2.5rem,
+    11: 2.75rem,
+    12: 3rem,
+    14: 3.5rem,
+    16: 4rem,
+    20: 5rem,
+    24: 6rem,
+    28: 7rem,
+    32: 8rem,
+    36: 9rem,
+    40: 10rem,
+    44: 11rem,
+    48: 12rem,
+    52: 13rem,
+    56: 14rem,
+    60: 15rem,
+    64: 16rem,
+    72: 18rem,
+    80: 20rem,
+    96: 24rem,
+    162: 10.125rem,
+    277: 17.313rem,
+    46: 2.875rem,
+);
+
+$positions: (
+    t: top,
+    r: right,
+    b: bottom,
+    l: left,
+    x: (left, right),
+    y: (top, bottom),
+);
+
+$colors: (
+    gray-200: #E6E9ED
+);
+
+// Mixin for responsive spacing
+@mixin responsive-spacing($property, $alias, $size, $position) {
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\:#{$alias}#{$position}-#{$size} {
+            @media (min-width: #{$width}) {
+                @if meta.type-of(map.get($positions, $position)) == "list" {
+                    @each $dir in map.get($positions, $position) {
+                        #{$property}-#{$dir}: map.get($spacing, $size);
+                    }
+                } @else {
+                    #{$property}-#{map.get($positions, $position)}: map.get($spacing, $size);
+                }
+            }
+        }
+    }
+    .#{$alias}#{$position}-#{$size} {
+        @if meta.type-of(map.get($positions, $position)) == "list" {
+            @each $dir in map.get($positions, $position) {
+                #{$property}-#{$dir}: map.get($spacing, $size);
+            }
+        } @else {
+            #{$property}-#{map.get($positions, $position)}: map.get($spacing, $size);
+        }
+    }
+}
+
+@mixin responsive-spacing-without-position($property, $alias, $size) {
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\:#{$alias}-#{$size} {
+            @media (min-width: #{$width}) {
+                #{$property}: map.get($spacing, $size);
+            }
+        }
+    }
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\:\!#{$alias}-#{$size} {
+            @media (min-width: #{$width}) {
+                #{$property}: map.get($spacing, $size) !important;
+            }
+        }
+    }
+    .#{$alias}-#{$size} {
+        #{$property}: map.get($spacing, $size);
+    }
+}
+
+@mixin responsive-classes($property, $alias, $value)
+{
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\:#{$alias} {
+            @media (min-width: #{$width}) {
+                #{$property}: #{$value};
+            }
+        }
+    }
+
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\:\!#{$alias} {
+            @media (min-width: #{$width}) {
+                #{$property}: #{$value} !important;
+            }
+        }
+    }
+
+    .#{$alias} {
+        #{$property}: #{$value};
+    }
+}
+
+@mixin responsive-container($alias)
+{
+    @each $breakpoint, $width in $breakpoints {
+        .#{"\\" + $breakpoint}\\:#{$alias} {
+            @media (min-width: #{$width}) {
+                max-width: #{$width};
+                margin: 0 auto;
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+        }
+
+        .#{$alias} {
+            max-width: #{$width};
+            margin: 0 auto;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+    }
+
+}
+
+
+@include responsive-container(container);
+
+
+@include responsive-classes(align-items, items-start, flex-start);
+@include responsive-classes(align-items, items-end, flex-end);
+@include responsive-classes(align-items, items-center, center);
+@include responsive-classes(align-items, items-baseline, baseline);
+@include responsive-classes(align-items, items-stretch, stretch);
+
+@include responsive-classes(grid-template-columns, grid-cols-2, repeat(2, minmax(0, 1fr)));
+@include responsive-classes(grid-template-columns, grid-cols-1, repeat(1, minmax(0, 1fr)));
+@include responsive-classes(grid-template-columns, grid-cols-3, repeat(3, minmax(0, 1fr)));
+@include responsive-classes(grid-template-columns, grid-cols-4, repeat(4, minmax(0, 1fr)));
+
+@include responsive-classes(display, flex, flex);
+@include responsive-classes(display, grid, grid);
+@include responsive-classes(display, inline, inline);
+@include responsive-classes(display, block, block);
+@include responsive-classes(display, hidden, none);
+
+@include responsive-classes(justify-content, justify-normal, normal);
+@include responsive-classes(justify-content, justify-start, flex-start);
+@include responsive-classes(justify-content, justify-end, flex-end);
+@include responsive-classes(justify-content, justify-center, center);
+@include responsive-classes(justify-content, justify-between, space-between);
+@include responsive-classes(justify-content, justify-around, space-around);
+@include responsive-classes(justify-content, justify-evenly, space-evenly);
+@include responsive-classes(justify-content, justify-stretch, stretch);
+
+@include responsive-classes(flex-direction, flex-col, column);
+@include responsive-classes(flex-direction, flex-row, row);
+@include responsive-classes(flex-direction, flex-row-reverse, row-reverse);
+@include responsive-classes(flex-direction, flex-col-reverse, column-reverse);
+@include responsive-classes(flex, flex-none, none);
+@include responsive-classes(box-shadow, shadow-md, (0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)));
+@include responsive-classes(box-shadow, shadow, (0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)));
+@include responsive-classes(box-shadow, shadow-sm, (0 1px 2px 0 rgb(0 0 0 / 0.05)));
+@include responsive-classes(box-shadow, shadow-none, (0 0 #0000));
+
+
+@each $size, $value in $spacing {
+    @each $position, $dirs in $positions {
+        @include responsive-spacing(margin, m, $size, $position);
+        @include responsive-spacing(padding, p, $size, $position);
+        @include responsive-spacing(gap, gap, $size, $position);
+    }
+
+    @include responsive-spacing-without-position(padding, p, $size);
+    @include responsive-spacing-without-position(margin, m, $size);
+    @include responsive-spacing-without-position(gap, gap, $size);
+    @include responsive-spacing-without-position(width, w, $size);
+    @include responsive-spacing-without-position(height, h, $size);
+    @include responsive-spacing-without-position(max-width, max-w, $size);
+}

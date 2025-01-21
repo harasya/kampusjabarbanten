@@ -1,0 +1,84 @@
+@use "mixins";
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.h-auto {
+    height: auto;
+}
+
+.w-auto {
+    width: auto;
+}
+
+.bg-gradation {
+    background: linear-gradient(90deg, #3a8cfd, #71d5fd);
+}
+
+hr {
+    background-color: #E6E9ED;
+    height: 1px;
+    border: none;
+}
+
+button {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &.btn {
+        &[fill] {
+            border-radius: 40px;
+        }
+        &[disabled] {
+            pointer-events: none;
+        }
+        &-primary {
+            background-color: #0AA8C1;
+            color: #fff;
+        }
+        &-secondary {
+            background-color: #fff;
+            color: #0AA8C1;
+            border: 1px solid #0AA8C1;
+        }
+        &-danger {
+            background-color: #E83158;
+            color: #fff;
+        }
+        &-blue {
+            background-color: #3A5AE3;
+            color: #fff;
+        }
+        &-pendaftaran {
+            background-color: #0AA8C1;
+            color: #fff;
+        }
+        &-md {
+            padding: 0.625rem 1.25rem;
+        }
+        &-lg {
+            padding: 1rem 1.75rem;
+            font-weight: 500;
+        }
+        &-xl {
+            padding: 1.5rem 3rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        &-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+    }
+}
